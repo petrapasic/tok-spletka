@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin prijava</title>
+</head>
+<body>
+<h2>Admin prijava</h2>
+
+<input id="email" type="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Geslo"><br><br>
+<button onclick="login()">Prijava</button>
+
+<p id="status"></p>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+
+  apiKey: "AIzaSyDSEsqJxcEQLOwduw6eT3zVXnc7dnHyKEs",
+
+  authDomain: "tok-spletka.firebaseapp.com",
+
+  databaseURL: "https://tok-spletka-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId: "tok-spletka",
+
+  storageBucket: "tok-spletka.firebasestorage.app",
+
+  messagingSenderId: "537355007528",
+
+  appId: "1:537355007528:web:8c62336e4f31376968a71d"
+
+};
+firebase.initializeApp(firebaseConfig);
+
+// prijava
+function login() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then(() => {
+      window.location.href = "admin.html";
+    })
+    .catch(err => {
+      document.getElementById("status").textContent = err.message;
+    });
+}
+</script>
+
+</body>
+</html>
