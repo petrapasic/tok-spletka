@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonimna oddaja</title>
+  <style>
+    body { font-family: Arial; padding: 40px; max-width: 600px; margin: auto; }
+    textarea { width: 100%; height: 150px; padding: 10px; font-size: 1rem; }
+    button { padding: 10px 20px; font-size: 1rem; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Anonimna oddaja povedi</h2>
+
+  <textarea id="poved" placeholder="Vnesi svojo anonimno poved..."></textarea>
+  <br>
+  <button onclick="oddaj()">Oddaj</button>
+
+  <p id="status"></p>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
+  <script>
+const firebaseConfig = {
+
+  apiKey: "AIzaSyDSEsqJxcEQLOwduw6eT3zVXnc7dnHyKEs",
+
+  authDomain: "tok-spletka.firebaseapp.com",
+
+  databaseURL: "https://tok-spletka-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId: "tok-spletka",
+
+  storageBucket: "tok-spletka.firebasestorage.app",
+
+  messagingSenderId: "537355007528",
+
+  appId: "1:537355007528:web:8c62336e4f31376968a71d"
+
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function oddaj() {
+      const tekst = document.getElementById("poved").value.trim();
+      const status = document.getElementById("status");
+
+      if (!tekst) {
+        status.textContent = "Vnesi nekaj!";
+        return;
+      }
+
+      db.ref("tok-spletka").push({
+        poved: tekst,
+        cas: Date.now()
+      })
+      .then(() => {
+        status.textContent = "Oddano! Hvala.";
+        document.getElementById("poved").value = "";
+      })
+      .catch((e) => {
+        status.textContent = "Napaka: " + e;
+      });
+    }
+  </script>
+
+</body>
+</html>
